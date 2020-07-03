@@ -1,0 +1,20 @@
+---
+- name: RTPengine | Ensure some special directories exist.
+  become: true
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - rtpengine_spool_dir
+    - rtpengine_output_dir
+
+- name: RTPengine | Copy config file.
+  become: true
+  template:
+    src: "{{ rtpengine_templates_dir }}/{{ item }}.j2"
+    dest: "{{ rtpengine_config_dir }}/{{ item }}"
+    backup: true
+  with_items: "{{ rtpengine_config_files }}"
+  notify:
+    - Restart rtpengine-daemon
+    - Restart rtpengine-recording

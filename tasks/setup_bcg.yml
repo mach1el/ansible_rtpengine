@@ -1,0 +1,31 @@
+---
+- name: Ensure bcg build folder not exist.
+  file:
+    path: "{{ rtpengine_bcg_build_dir }}"
+    state: absent
+
+- name: Curl | get source file.
+  shell: curl https://codeload.github.com/BelledonneCommunications/bcg729/tar.gz/{{ rtpengine_bcg_version }} >bcg729_{{ rtpengine_bcg_version }}.orig.tar.gz
+  args:
+    chdir: "{{ rtpengine_working_dir }}"
+
+- name: Extact the source.
+  shell: tar zxf bcg729_{{ rtpengine_bcg_version }}.orig.tar.gz
+  args:
+    chdir: "{{ rtpengine_working_dir }}"
+
+- name: Clone package to build bcg.
+  shell: git clone https://github.com/ossobv/bcg729-deb.git debian
+  args:
+    chdir: "{{ rtpengine_bcg_build_dir }}"
+
+- name: Build bcg729 package.
+  shell: dpkg-buildpackage -d -us -uc -sa
+  args:
+    chdir: "{{ rtpengine_bcg_build_dir }}"
+
+- name: Install bcg729.
+  become: true
+  shell: dpkg -i libbcg729-*.deb
+  args:
+    chdir: "{{ rtpengine_working_dir }}"

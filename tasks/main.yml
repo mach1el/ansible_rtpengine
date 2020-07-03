@@ -1,0 +1,31 @@
+---
+- import_tasks: setup_debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: Gather packages facts.
+  package_facts:
+    manager: apt
+
+- include_tasks: setup_bcg.yml
+  when: "'{{ item }}' not in ansible_facts.packages"
+  with_items: "{{ rtpengine_bcg_require_pkg }}"
+
+- include_tasks: setup_rtpengine.yml
+  when: "'{{ item }}' not in ansible_facts.packages"
+  with_items: "{{ rtpengine_main_pkg }}"
+
+- include_tasks: configure.yml
+
+- name: RTPengine | Enable service.
+  become: true
+  service:
+    name: "{{ rtpengine_service_name }}"
+    state: 'restarted'
+    enabled: true
+
+- name: RTPengine | Enable rtpengine-recording service.
+  become: true
+  service:
+    name: "{{ rtpengine_recording_service_name }}"
+    state: 'restarted'
+    enabled: true

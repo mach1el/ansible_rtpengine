@@ -1,0 +1,26 @@
+---
+- name: RTPengine | Ensure build folder not exist.
+  file:
+    path: "{{ rtpengine_working_dir }}/rtpengine"
+    state: absent
+
+- name: RTPengine | Clone source
+  shell: git clone {{ rtpengine_github_repo }}
+  args:
+    chdir: "{{ rtpengine_working_dir }}"
+
+- name: RTPengine | Dpkg check build.
+  shell: dpkg-checkbuilddeps
+  args:
+    chdir: "{{ rtpengine_working_dir }}/rtpengine"
+
+- name: RTPengine | Dpkg build packages.
+  shell: dpkg-buildpackage -d -us -uc -sa
+  args:
+    chdir: "{{ rtpengine_working_dir }}/rtpengine"
+
+- name: RTPengine | Install packages.
+  become: true
+  shell: dpkg -i ngcp-rtpengine-daemon_*.deb ngcp-rtpengine-recording-daemon_*.deb ngcp-rtpengine-iptables_*.deb ngcp-rtpengine-kernel-dkms_*.deb
+  args:
+    chdir: "{{ rtpengine_working_dir }}"
