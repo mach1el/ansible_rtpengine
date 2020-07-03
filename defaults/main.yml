@@ -1,0 +1,67 @@
+---
+rtpengine_table_mode: "0"
+rtpengine_interface: "192.168.1.124"
+rtpengine_listen_host: "192.168.1.124"
+rtpengine_listen_ng_port: "2229"
+rtpengine_listen_tcp_port: "60001"
+rtpengine_port_min: "10000"
+rtpengine_port_max: "60000"
+rtpengine_recording_dir: "/var/spool/rtpengine"
+rtpengine_recording_method: "proc"
+rtpengine_recording_format: "raw"
+rtpengine_output_format: "wav"
+rtpengine_config_dir: "/etc/rtpengine"
+rtpengine_spool_dir: "/var/spool/rtpengine"
+rtpengine_output_dir: "/var/lib/rtpengine-recording"
+rtpengine_templates_dir: "../templates/"
+rtpengine_bcg_version: "1.0.4"
+rtpengine_bcg_repo: "https://github.com/ossobv/bcg729-deb.git"
+rtpengine_github_repo: "https://github.com/sipwise/rtpengine.git"
+rtpengine_working_dir: "/tmp"
+rtpengine_service_name: "ngcp-rtpengine-daemon"
+rtpengine_recording_service_name: "ngcp-rtpengine-recording-daemon"
+rtpengine_bcg_build_dir: "{{ rtpengine_working_dir }}/bcg729-{{ rtpengine_bcg_version }}"
+rtpengine_config_files:
+  - rtpengine.conf
+  - rtpengine-recording.conf
+rtpengine_bcg_require_pkg:
+  - libbcg729-0
+  - libbcg729-dev
+rtpengine_main_pkg:
+  - ngcp-rtpengine-daemon
+  - ngcp-rtpengine-iptables
+  - ngcp-rtpengine-kernel-dkms
+  - ngcp-rtpengine-recording-daemon
+rtpengine_packages:
+  - curl
+  - git
+  - debhelper
+  - default-libmysqlclient-dev
+  - gperf 
+  - iptables-dev
+  - libavcodec-dev
+  - libavfilter-dev
+  - libavformat-dev
+  - libavutil-dev
+  - libbencode-perl
+  - libcrypt-openssl-rsa-perl
+  - libcrypt-rijndael-perl
+  - libhiredis-dev
+  - libio-multiplex-perl
+  - libio-socket-inet6-perl
+  - libjson-glib-dev
+  - libdigest-crc-perl
+  - libdigest-hmac-perl
+  - libnet-interface-perl
+  - libnet-interface-perl
+  - libssl-dev
+  - libsystemd-dev
+  - libxmlrpc-core-c3-dev
+  - libcurl4-openssl-dev
+  - libevent-dev
+  - libpcap0.8-dev
+  - markdown
+  - unzip
+  - nfs-common
+  - dkms 
+  - libspandsp-dev
