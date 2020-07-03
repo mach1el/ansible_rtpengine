@@ -7,11 +7,11 @@
     manager: apt
 
 - include_tasks: setup_bcg.yml
-  when: "'{{ item }}' not in ansible_facts.packages"
+  when: "'item' not in ansible_facts.packages"
   with_items: "{{ rtpengine_bcg_require_pkg }}"
 
 - include_tasks: setup_rtpengine.yml
-  when: "'{{ item }}' not in ansible_facts.packages"
+  when: "'item' not in ansible_facts.packages"
   with_items: "{{ rtpengine_main_pkg }}"
 
 - include_tasks: configure.yml
