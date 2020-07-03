@@ -1,0 +1,12 @@
+---
+- name: Restart rtpengine-daemon
+  become: true
+  service:
+    name: "{{ rtpengine_service_name }}"
+    state: 'restarted'
+
+- name: Restart rtpengine-recording
+  become: true
+  service:
+    name: "{{ rtpengine_recording_service_name }}"
+    state: 'restarted'
